@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>giovanni-github</string>
+	<string>giovanni-githubhub</string>
 	<key>connections</key>
 	<dict>
 		<key>973E5E89-CCD1-4107-9419-806CE477F513</key>
@@ -23,11 +23,11 @@
 	<key>createdby</key>
 	<string>giovanni</string>
 	<key>description</key>
-	<string></string>
+	<string>A hub for your Github repositories</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Github Downloads</string>
+	<string>GithubHub</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -56,7 +56,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please wait while I retrieve your downloads...</string>
+				<string>Please wait while I retrieve your info...</string>
 				<key>script</key>
 				<string>export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
 python3 github.py</string>
@@ -67,7 +67,7 @@ python3 github.py</string>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Show github downloads</string>
+				<string>Show github repositories stats</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -136,13 +136,13 @@ python3 github.py</string>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>from https://github.com/user/settings/tokens</string>
+			<string></string>
 			<key>label</key>
-			<string>GitHub API Token</string>
+			<string>GitHub username</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>myAPIkey</string>
+			<string>myUsername</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -157,17 +157,17 @@ python3 github.py</string>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>from https://github.com/user/settings/tokens</string>
 			<key>label</key>
-			<string>GitHub username</string>
+			<string>GitHub API Token</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>myUsername</string>
+			<string>myAPIkey</string>
 		</dict>
 	</array>
 	<key>version</key>
-	<string></string>
+	<string>0.1</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
