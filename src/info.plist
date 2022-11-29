@@ -59,7 +59,7 @@
 				<string>Please wait while I retrieve your info...</string>
 				<key>script</key>
 				<string>export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
-python3 github.py</string>
+python3 github.py "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -164,6 +164,27 @@ python3 github.py</string>
 			<string>textfield</string>
 			<key>variable</key>
 			<string>myAPIkey</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>60</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>in minutes</string>
+			<key>label</key>
+			<string>Refresh rate</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>RefreshRate</string>
 		</dict>
 	</array>
 	<key>version</key>
