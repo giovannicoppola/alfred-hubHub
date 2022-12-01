@@ -8,6 +8,8 @@ import json
 from datetime import date
 import sys
 import os
+import json
+from config import CACHE_FOLDER, CACHE_FOLDER_IMAGES, HISTORY_FOLDER, QUICKLOOK_PREF
 
 def log(s, *args):
     if args:
@@ -19,6 +21,10 @@ def log(s, *args):
 ####################
 username = os.getenv("myUsername")
 token = os.getenv("myAPIkey")
+downCheck = os.getenv("downCheck")
+issueCheck = os.getenv("issueCheck")
+forkCheck = os.getenv("forkCheck")
+starCheck = os.getenv("starCheck")
 today = date.today()
 refRate = int(os.getenv("RefreshRate"))
 result = {"items": []}
@@ -30,6 +36,42 @@ sameDay = 0
 
 
 
+def makePlot (repos):
+    import pandas as pd # under the assumption that these are not imported if new plots are not generated? 
+    import matplotlib.pyplot as plt
+    
+    
+    
+    
+
+    for myRepo in repos:
+        PlotSubset = []
+        for item in myGitHistory:
+            #print (myGitHistory[item])
+            if (item != "RepoURLs") and (myRepo in myGitHistory[item]):
+            
+                PlotDict = {}
+                PlotDict['timestamp'] = item
+                PlotDict['value'] = myGitHistory[item][myRepo]['myDownloads']
+                PlotSubset.append(PlotDict)
+
+
+        df = pd.DataFrame(PlotSubset)
+        df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%d")
+        df = df.set_index("timestamp").sort_index()
+        
+        # plotting
+        df['value'].plot()
+        #ax.set(xlabel=None)
+
+        plt.xlabel('', fontsize=18)
+        plt.ylabel('Downloads', fontsize=16)
+        plt.title(f"{myRepo}", fontsize=18)       
+        plt.savefig(f'{CACHE_FOLDER_IMAGES}/{myRepo}.png')
+        #df.to_csv(f'cache/{myRepo}.csv')
+        plt.clf()
+
+
 def FetchGithub (myName, myToken):
 
     repos_url = 'https://api.github.com/user/repos?per_page=100'
@@ -38,6 +80,7 @@ def FetchGithub (myName, myToken):
     
     myGithubHub = {}
     myURLs = {}
+    myRepos = []
 
     # create a re-usable session object with the user creds in-built
     gh_session = requests.Session()
@@ -50,6 +93,7 @@ def FetchGithub (myName, myToken):
         myURL = myRepo['releases_url']
         myURL = myURL.replace("{/id}", "")
         myGithubHub [myRepo["name"]] = {}
+        myRepos.append(myRepo["name"])
         # computing total downloads
         downl = json.loads(gh_session.get(myURL).text)
         #print (myRepo["name"])
@@ -72,8 +116,9 @@ def FetchGithub (myName, myToken):
     myGitHistory[d1] = myGithubHub
     myGitHistory['RepoURLs'] = myURLs
     
+    makePlot(myRepos)
 
-    file2 = open("myGitHistory.json", "w") 
+    file2 = open(f"{HISTORY_FOLDER}/myGitHistory.json", "w") 
     file2.write(json.dumps(myGitHistory, indent = 4))
     file2.close()
 
@@ -108,45 +153,65 @@ else:
     subString = f"Last updated today, compared to {myPrevious}"
     
 myPreviousD = myGitHistory[myPrevious]    
-myDelta_downloads = {}
-mySymbol_D = {}
-myDelta_stars = {}
-mySymbol_S = {}
-myDelta_issues = {}
-mySymbol_I = {}
-myDelta_forks = {}
-mySymbol_F = {}
 
-
+forkString = {}
+downString = {}
+issueString = {} 
+starString = {}
 
 # comparing to most recent counts
 for myRepo in myGithubHub:
+    downString[myRepo] = ""
+    issueString[myRepo] = ""
+    starString[myRepo] = ""
+    forkString[myRepo] = ""
+
     # DOWNLOADS
-    myDelta_downloads[myRepo] = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
-    if myDelta_downloads[myRepo] == 0: mySymbol_D[myRepo] = "↔️"
-    if myDelta_downloads[myRepo] > 0: mySymbol_D[myRepo] = f"⬆️+{myDelta_downloads[myRepo]}"
-    if myDelta_downloads[myRepo] < 0: mySymbol_D[myRepo] = f"⬇️{myDelta_downloads[myRepo]}" # impossible? 
-
+    if downCheck == "1":
+        myDelta_downloads = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
+        if myDelta_downloads == 0: mySymbol_D = "↔️"
+        if myDelta_downloads > 0: mySymbol_D = f"⬆️+{myDelta_downloads}"
+        if myDelta_downloads < 0: mySymbol_D = f"⬇️{myDelta_downloads}" # impossible? 
+        downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} ({mySymbol_D})"
+    
     # STARS
-    myDelta_stars[myRepo] = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
-    if myDelta_stars[myRepo] == 0: mySymbol_S[myRepo] = "↔️"
-    if myDelta_stars[myRepo] > 0: mySymbol_S[myRepo] = f"⬆️+{myDelta_stars[myRepo]}"
-    if myDelta_stars[myRepo] < 0: mySymbol_S[myRepo] = f"⬇️{myDelta_stars[myRepo]}" 
-
+    if starCheck == "1":
+        myDelta_stars = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
+        if myDelta_stars == 0: mySymbol_S = "↔️"
+        if myDelta_stars > 0: mySymbol_S = f"⬆️+{myDelta_stars}"
+        if myDelta_stars < 0: mySymbol_S = f"⬇️{myDelta_stars}" 
+        starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']}({mySymbol_S}) "  
+    
     # ISSUES
-    myDelta_issues[myRepo] = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
-    if myDelta_issues[myRepo] == 0: mySymbol_I[myRepo] = "↔️"
-    if myDelta_issues[myRepo] > 0: mySymbol_I[myRepo] = f"⬆️+{myDelta_issues[myRepo]}"
-    if myDelta_issues[myRepo] < 0: mySymbol_I[myRepo] = f"⬇️{myDelta_issues[myRepo]}" 
-
+    if issueCheck == "1":
+        myDelta_issues = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
+        if myDelta_issues == 0: mySymbol_I = "↔️"
+        if myDelta_issues > 0: mySymbol_I = f"⬆️+{myDelta_issues}"
+        if myDelta_issues < 0: mySymbol_I = f"⬇️{myDelta_issues}" 
+        issueString[myRepo] = f"🐛{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I})"  
+    
     # FORKS
-    myDelta_forks[myRepo] = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
-    if myDelta_forks[myRepo] == 0: mySymbol_F[myRepo] = "↔️"
-    if myDelta_forks[myRepo] > 0: mySymbol_F[myRepo] = f"⬆️+{myDelta_forks[myRepo]}"
-    if myDelta_forks[myRepo] < 0: mySymbol_F[myRepo] = f"⬇️{myDelta_forks[myRepo]}" 
+    if forkCheck == "1":
+        myDelta_forks = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
+        if myDelta_forks == 0: mySymbol_F = "↔️"
+        if myDelta_forks > 0: mySymbol_F = f"⬆️+{myDelta_forks[myRepo]}"
+        if myDelta_forks < 0: mySymbol_F = f"⬇️{myDelta_forks[myRepo]}" 
+        forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']}({mySymbol_F})"
+    
+    
+
+
 
 countR =0
 myResLen = len (myGithubHub)
+
+## setting the quicklook based on user's preference
+if QUICKLOOK_PREF == "Repo":
+    myQuickLook = "myURLs[myRepo]"
+elif QUICKLOOK_PREF == "Issues":
+    myQuickLook = "{myURLs[myRepo]}/issues"
+else:
+    myQuickLook = "myURLs[myRepo]"
         
 for myRepo in myGithubHub:
         countR += 1
@@ -156,13 +221,14 @@ for myRepo in myGithubHub:
             result["items"].append({
                 
                 "title": (
-                    f"{myRepo}: ⬇{myGitHistory[d1][myRepo]['myDownloads']} ({mySymbol_D[myRepo]}) "  
-                    f" 🐛{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I[myRepo]})  " 
-                    f"⭐{myGitHistory[d1][myRepo]['myStars']}({mySymbol_S[myRepo]}) "  
-                    f"🌿{myGitHistory[d1][myRepo]['myForks']}({mySymbol_F[myRepo]})"
+                    f"{myRepo}: {downString[myRepo]}"  
+                    f"{issueString[myRepo]} " 
+                    f"{starString[myRepo]} "  
+                    f"{forkString[myRepo]}"
                     ),
                 "subtitle": f"{countR}/{myResLen} {subString}", 
-                "arg": myURLs[myRepo]
+                "arg": myURLs[myRepo],
+                "quicklookurl": f"{{myQuickLook}}"
                         
                 
             })
@@ -177,76 +243,22 @@ print (json.dumps(result))
 
 
 """
-#! /usr/bin/env python3
+    ## Converting the older history file to the new fdormat
 
-#Tarrytown – Overcast ☁️   🌡️+40°F (feels +35°F, 79%) 🌬️↘4mph 🌓 Wed Nov 30 09:31:23 2022
-#W48Q4 – 334 ➡️ 30 – 203 ❇️ 161
+    f = open('/Users/giovanni.coppola/Library/CloudStorage/OneDrive-RegeneronPharmaceuticals,Inc/MyScripts/myGitHubRepos/alfred-GitHubHub/src/myHistory backup.json')
+    myOldGit = json.load(f)
+    f.close()
 
-#Learning how to plot a comumlative line using matplotlib
-# first use: GitHubHub
-
-
-#import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-import re
-import os
-import json
-
-
-myNewDict = {}
+    for xx in myOldGit:
+        myNewDict[xx] = {}
+        for yy in myOldGit[xx]:
+            myNewDict [xx][yy] = {}
+            myNewDict [xx][yy]['myDownloads'] = myOldGit[xx][yy]
 
 
 
-## Converting the older history file to the new fdormat
-
-f = open('/Users/giovanni.coppola/Library/CloudStorage/OneDrive-RegeneronPharmaceuticals,Inc/MyScripts/myGitHubRepos/alfred-GitHubHub/src/myHistory backup.json')
-myOldGit = json.load(f)
-f.close()
-
-for xx in myOldGit:
-    myNewDict[xx] = {}
-    for yy in myOldGit[xx]:
-        myNewDict [xx][yy] = {}
-        myNewDict [xx][yy]['myDownloads'] = myOldGit[xx][yy]
-
-
-
-file2 = open("myNewDict.json", "w") 
-file2.write(json.dumps(myNewDict, indent = 4))
-file2.close()
-
-
-
-# Loading the JSON history file
-f = open('myNewDict.json')
-myGitHistory = json.load(f)
-f.close()
-
-myRepo = 'alfred-convert'
-
-
-
-PlotSubset = []
-
-for item in myGitHistory:
-    if (item != "RepoURLs") and (myRepo in myGitHistory[item]):
-        PlotDict = {}
-        print (item)
-        #print (myGitHistory[item][myRepo])
-        PlotDict['timestamp'] = item
-        PlotDict['value'] = myGitHistory[item][myRepo]['myDownloads']
-        PlotSubset.append(PlotDict)
-
-
-df = pd.DataFrame(PlotSubset)
-df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%d")
-df = df.set_index("timestamp").sort_index()
-ax = df['value'].plot()
-
-plt.savefig('CumulativeLine.png')
-
-
+    file2 = open("myNewDict.json", "w") 
+    file2.write(json.dumps(myNewDict, indent = 4))
+    file2.close()
 
 """

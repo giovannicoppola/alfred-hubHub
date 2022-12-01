@@ -71,7 +71,7 @@ python3 github.py "$1"</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -103,7 +103,7 @@ python3 github.py "$1"</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>A customizable dashboard for your GitHub repositories</string>
 	<key>uidata</key>
 	<dict>
 		<key>4F3DB6C4-D18B-4592-AAD5-7AC06F12AAAD</key>
@@ -185,6 +185,133 @@ python3 github.py "$1"</string>
 			<string>textfield</string>
 			<key>variable</key>
 			<string>RefreshRate</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Show Downloads?</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>downCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>Show Forks?</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Forks</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>forkCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Show Issues?</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>issueCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Show Stars?</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>starCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>filtermode</key>
+				<integer>1</integer>
+				<key>placeholder</key>
+				<string>Default: workflow cache</string>
+				<key>required</key>
+				<false/>
+			</dict>
+			<key>description</key>
+			<string>By default this JSON object is stored in the Workflow cache folder. Since it is built over time, it might be preferred to store it somewhere else.</string>
+			<key>label</key>
+			<string>Folder to store your history</string>
+			<key>type</key>
+			<string>filepicker</string>
+			<key>variable</key>
+			<string>HISTORY_FOLDER</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>Plot</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Repo main page</string>
+						<string>Repo</string>
+					</array>
+					<array>
+						<string>Repo issues page</string>
+						<string>Issues</string>
+					</array>
+					<array>
+						<string>Downloads Plot</string>
+						<string>Plot</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>What you'd like to see when pressing ⇧</string>
+			<key>label</key>
+			<string>Quicklook</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>PreviewPref</string>
 		</dict>
 	</array>
 	<key>version</key>
