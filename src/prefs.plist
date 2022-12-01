@@ -8,5 +8,9 @@
 	<string>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</string>
 	<key>myUsername</key>
 	<string>giovannicoppola</string>
+	<key>starCheck</key>
+	<true/>
+	<key>watchCheck</key>
+	<true/>
 </dict>
 </plist>

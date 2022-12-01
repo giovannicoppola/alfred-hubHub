@@ -6,25 +6,52 @@
 import requests
 import json
 from datetime import date
+import time
 import sys
 import os
 import json
-from config import CACHE_FOLDER, CACHE_FOLDER_IMAGES, HISTORY_FOLDER, QUICKLOOK_PREF
+from config import CACHE_FOLDER, CACHE_FOLDER_IMAGES, HISTORY_FOLDER, QUICKLOOK_PREF, HISTORY_FILE
 
 def log(s, *args):
     if args:
         s = s % args
     print(s, file=sys.stderr)
 
+
+
+def checkingTime ():
+## Checking if the database needs to be built or rebuilt
+    timeToday = time.time()
+    if not os.path.exists(HISTORY_FILE):
+        log ("History File missing ... building")
+        myGithubHub, myURLs = FetchGithub (username,token,myGitHistory)
+    else: 
+        databaseTime= (int(os.path.getmtime(HISTORY_FILE)))
+        time_elapsed = int((timeToday-databaseTime)/86400)
+        log (str(time_elapsed)+" days from last update")
+        if time_elapsed >= refRate:
+            log ("rebuilding database ⏳...")
+               # Loading the JSON history file
+            f = open(HISTORY_FILE)
+            myGitHistory = json.load(f)
+            f.close()
+
+            myGithubHub, myURLs = FetchGithub (username,token, myGitHistory)
+            log ("done 👍")
+            #return "toBeUpdated"
+    
+    
 ####################
 # inputs          ##
 ####################
 username = os.getenv("myUsername")
 token = os.getenv("myAPIkey")
 downCheck = os.getenv("downCheck")
+watchCheck = os.getenv("watchCheck")
 issueCheck = os.getenv("issueCheck")
 forkCheck = os.getenv("forkCheck")
 starCheck = os.getenv("starCheck")
+myGitHistory = {}
 today = date.today()
 refRate = int(os.getenv("RefreshRate"))
 result = {"items": []}
@@ -35,8 +62,7 @@ sameDay = 0
 
 
 
-
-def makePlot (repos):
+def makePlot (repos, myGitHistory):
     import pandas as pd # under the assumption that these are not imported if new plots are not generated? 
     import matplotlib.pyplot as plt
     
@@ -63,7 +89,7 @@ def makePlot (repos):
         # plotting
         df['value'].plot()
         #ax.set(xlabel=None)
-
+        plt.style.use('seaborn-poster')
         plt.xlabel('', fontsize=18)
         plt.ylabel('Downloads', fontsize=16)
         plt.title(f"{myRepo}", fontsize=18)       
@@ -72,8 +98,8 @@ def makePlot (repos):
         plt.clf()
 
 
-def FetchGithub (myName, myToken):
-
+def FetchGithub (myName, myToken, myGitHistory):
+ 
     repos_url = 'https://api.github.com/user/repos?per_page=100'
     # added the number per page, since default is 30
     # https://stackoverflow.com/questions/27331849/github-api-v3-doesnt-show-all-user-repositories
@@ -93,7 +119,7 @@ def FetchGithub (myName, myToken):
         myURL = myRepo['releases_url']
         myURL = myURL.replace("{/id}", "")
         myGithubHub [myRepo["name"]] = {}
-        myRepos.append(myRepo["name"])
+        myRepos.append(myRepo["name"]) #saving a list of repos names to be used with the plot function
         # computing total downloads
         downl = json.loads(gh_session.get(myURL).text)
         #print (myRepo["name"])
@@ -106,17 +132,18 @@ def FetchGithub (myName, myToken):
         else:
             myGithubHub [myRepo["name"]]['myDownloads'] = 0
         
+        myGithubHub [myRepo["name"]]['myWatchers'] = myRepo['watchers_count']
         myGithubHub [myRepo["name"]]['myIssues'] = myRepo['open_issues_count']
         myGithubHub [myRepo["name"]]['myStars'] = myRepo['stargazers_count']
         myGithubHub [myRepo["name"]]['myForks'] = myRepo['forks_count']
         myURLs [myRepo["name"]] = myRepo['html_url']
         myGithubHub = dict(sorted(myGithubHub.items(), reverse = True, key = lambda x: (x[1]['myDownloads'],x[1]['myIssues'])))
 
-    
+
     myGitHistory[d1] = myGithubHub
     myGitHistory['RepoURLs'] = myURLs
-    
-    makePlot(myRepos)
+        
+    makePlot(myRepos,myGitHistory)
 
     file2 = open(f"{HISTORY_FOLDER}/myGitHistory.json", "w") 
     file2.write(json.dumps(myGitHistory, indent = 4))
@@ -124,33 +151,40 @@ def FetchGithub (myName, myToken):
 
     return myGithubHub, myURLs
 
+#########
+#MAIN CODE
+#########
 
-# Loading the JSON history file
-f = open('myGitHistory.json')
+checkingTime()
+
+   # Loading the JSON history file
+f = open(HISTORY_FILE)
 myGitHistory = json.load(f)
 f.close()
 
 
+
 # getting the most recent historic
 myKeys = list(myGitHistory.keys())
-myPrevious = sorted (myKeys,reverse=True)[1] #0 is the URL list
-if myPrevious == d1:
-    myPrevious = sorted (myKeys,reverse=True)[2] #takes the previous one if it was checked already today
-    sameDay = 1
 
-if refRate < 100: 
-    # does not need to update, using cached results
-    myGithubHub = myGitHistory[myPrevious]
-    myURLs = myGitHistory['RepoURLs']
-    
-    if sameDay == 1:
-        subString = f"Last updated earlier today, compared to {myPrevious}"
-    else:
-        subString = f"Last updated on {myPrevious}"
-else: 
-    # needs to be updated and compared with the most recent
-    myGithubHub, myURLs = FetchGithub (username,token)
-    subString = f"Last updated today, compared to {myPrevious}"
+if len(myKeys) == 2:
+    myPrevious = sorted (myKeys,reverse = True)[1] #0 is the URL list
+else:
+
+    myPrevious = sorted (myKeys,reverse = True)[1] #0 is the URL list
+    if myPrevious == d1:
+        myPrevious = sorted (myKeys,reverse = True)[2] #takes the previous one if it was checked already today
+        sameDay = 1
+
+
+
+myGithubHub = myGitHistory[myPrevious]
+myURLs = myGitHistory['RepoURLs']
+
+if sameDay == 1:
+    subString = f"Last updated earlier today, compared to {myPrevious}"
+else:
+    subString = f"Last updated on {myPrevious}"
     
 myPreviousD = myGitHistory[myPrevious]    
 
@@ -158,6 +192,7 @@ forkString = {}
 downString = {}
 issueString = {} 
 starString = {}
+watchString = {}
 
 # comparing to most recent counts
 for myRepo in myGithubHub:
@@ -165,11 +200,13 @@ for myRepo in myGithubHub:
     issueString[myRepo] = ""
     starString[myRepo] = ""
     forkString[myRepo] = ""
+    watchString[myRepo] = ""
+
 
     # DOWNLOADS
     if downCheck == "1":
         myDelta_downloads = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
-        if myDelta_downloads == 0: mySymbol_D = "↔️"
+        if myDelta_downloads == 0: mySymbol_D = "–"
         if myDelta_downloads > 0: mySymbol_D = f"⬆️+{myDelta_downloads}"
         if myDelta_downloads < 0: mySymbol_D = f"⬇️{myDelta_downloads}" # impossible? 
         downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} ({mySymbol_D})"
@@ -177,7 +214,7 @@ for myRepo in myGithubHub:
     # STARS
     if starCheck == "1":
         myDelta_stars = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
-        if myDelta_stars == 0: mySymbol_S = "↔️"
+        if myDelta_stars == 0: mySymbol_S = "–"
         if myDelta_stars > 0: mySymbol_S = f"⬆️+{myDelta_stars}"
         if myDelta_stars < 0: mySymbol_S = f"⬇️{myDelta_stars}" 
         starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']}({mySymbol_S}) "  
@@ -185,53 +222,61 @@ for myRepo in myGithubHub:
     # ISSUES
     if issueCheck == "1":
         myDelta_issues = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
-        if myDelta_issues == 0: mySymbol_I = "↔️"
+        if myDelta_issues == 0: mySymbol_I = "–"
         if myDelta_issues > 0: mySymbol_I = f"⬆️+{myDelta_issues}"
         if myDelta_issues < 0: mySymbol_I = f"⬇️{myDelta_issues}" 
-        issueString[myRepo] = f"🐛{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I})"  
+        issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I})"  
     
     # FORKS
     if forkCheck == "1":
         myDelta_forks = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
-        if myDelta_forks == 0: mySymbol_F = "↔️"
+        if myDelta_forks == 0: mySymbol_F = "-"
         if myDelta_forks > 0: mySymbol_F = f"⬆️+{myDelta_forks[myRepo]}"
         if myDelta_forks < 0: mySymbol_F = f"⬇️{myDelta_forks[myRepo]}" 
         forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']}({mySymbol_F})"
     
+    # WATCHERS
+    if watchCheck == "1":
+        myDelta_watchers = myGithubHub[myRepo]['myWatchers'] - myPreviousD[myRepo]['myWatchers']
+        if myDelta_watchers == 0: mySymbol_W = "–"
+        if myDelta_watchers > 0: mySymbol_W = f"⬆️+{myDelta_watchers}"
+        if myDelta_watchers < 0: mySymbol_W = f"⬇️{myDelta_watchers}" # impossible? 
+        watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']} ({mySymbol_W})"
     
-
-
-
-countR =0
+    
+ 
+countR = 0
 myResLen = len (myGithubHub)
 
-## setting the quicklook based on user's preference
-if QUICKLOOK_PREF == "Repo":
-    myQuickLook = "myURLs[myRepo]"
-elif QUICKLOOK_PREF == "Issues":
-    myQuickLook = "{myURLs[myRepo]}/issues"
-else:
-    myQuickLook = "myURLs[myRepo]"
         
 for myRepo in myGithubHub:
-        countR += 1
-        
-        if MYINPUT.casefold() in myRepo.casefold():
-        
-            result["items"].append({
+    ## setting the quicklook based on user's preference
+    if QUICKLOOK_PREF == "Repo":
+        myQuickLook = f"{myURLs[myRepo]}"
+    elif QUICKLOOK_PREF == "Issues":
+        myQuickLook = f"{myURLs[myRepo]}/issues"
+    else:
+        myQuickLook = f"{CACHE_FOLDER_IMAGES}/{myRepo}.png"
+
+    countR += 1
+    
+    if MYINPUT.casefold() in myRepo.casefold():
+    
+        result["items"].append({
+            
+            "title": (
+                f"{myRepo}: {downString[myRepo]}"  
+                f"{issueString[myRepo]} " 
+                f"{starString[myRepo]} "  
+                f"{forkString[myRepo]}"
+                f"{watchString[myRepo]}"
+                ),
+            "subtitle": f"{countR}/{myResLen} {subString}", 
+            "arg": myURLs[myRepo],
+            "quicklookurl": myQuickLook
+                    
                 
-                "title": (
-                    f"{myRepo}: {downString[myRepo]}"  
-                    f"{issueString[myRepo]} " 
-                    f"{starString[myRepo]} "  
-                    f"{forkString[myRepo]}"
-                    ),
-                "subtitle": f"{countR}/{myResLen} {subString}", 
-                "arg": myURLs[myRepo],
-                "quicklookurl": f"{{myQuickLook}}"
-                        
-                
-            })
+        })
 
 print (json.dumps(result))
 
@@ -243,7 +288,7 @@ print (json.dumps(result))
 
 
 """
-    ## Converting the older history file to the new fdormat
+    ## Converting the older history file to the new format
 
     f = open('/Users/giovanni.coppola/Library/CloudStorage/OneDrive-RegeneronPharmaceuticals,Inc/MyScripts/myGitHubRepos/alfred-GitHubHub/src/myHistory backup.json')
     myOldGit = json.load(f)

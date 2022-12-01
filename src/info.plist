@@ -56,7 +56,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please wait while I retrieve your info...</string>
+				<string>Please wait while I retrieve your info from GitHub and generate plots...⏳</string>
 				<key>script</key>
 				<string>export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
 python3 github.py "$1"</string>
@@ -169,7 +169,7 @@ python3 github.py "$1"</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>60</string>
+				<string>1</string>
 				<key>placeholder</key>
 				<string></string>
 				<key>required</key>
@@ -178,7 +178,7 @@ python3 github.py "$1"</string>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>in minutes</string>
+			<string>in days</string>
 			<key>label</key>
 			<string>Refresh rate</string>
 			<key>type</key>
@@ -251,16 +251,35 @@ python3 github.py "$1"</string>
 				<key>required</key>
 				<false/>
 				<key>text</key>
-				<string></string>
+				<string>Show Stars?</string>
 			</dict>
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>Show Stars?</string>
+			<string>⭐</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
 			<string>starCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>👀</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Show Watchers?</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>watchCheck</string>
 		</dict>
 		<dict>
 			<key>config</key>

@@ -16,6 +16,7 @@ if os.getenv('HISTORY_FOLDER'):
 else:
     HISTORY_FOLDER = CACHE_FOLDER
 
+HISTORY_FILE = f'{HISTORY_FOLDER}/myGitHistory.json'
 
 if not os.path.exists(CACHE_FOLDER):
     os.makedirs(CACHE_FOLDER)
