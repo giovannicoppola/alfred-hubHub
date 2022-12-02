@@ -37,7 +37,7 @@ def checkingTime ():
             myGitHistory = json.load(f)
             f.close()
 
-            myGithubHub, myURLs = FetchGithub (username,token, myGitHistory)
+            FetchGithub (username,token, myGitHistory)
             log ("done 👍")
             #return "toBeUpdated"
     
@@ -52,9 +52,12 @@ watchCheck = os.getenv("watchCheck")
 issueCheck = os.getenv("issueCheck")
 forkCheck = os.getenv("forkCheck")
 starCheck = os.getenv("starCheck")
+
 myGitHistory = {}
 today = date.today()
 refRate = int(os.getenv("RefreshRate"))
+chartPref = os.getenv("chartPref")
+
 result = {"items": []}
 # dd/mm/YY
 d1 = today.strftime("%Y-%m-%d")
@@ -99,7 +102,7 @@ def makePlot (repos, myGitHistory):
         plt.clf()
 
 
-def FetchGithub (myName, myToken, myGitHistory):
+def FetchGithub (myName, myToken, myLocalGitHistory):
  
     repos_url = 'https://api.github.com/user/repos?per_page=100'
     # added the number per page, since default is 30
@@ -115,7 +118,7 @@ def FetchGithub (myName, myToken, myGitHistory):
 
     # get the list of repos 
     repos = json.loads(gh_session.get(repos_url).text)
-
+    #log ("_________________here")
     for myRepo in repos:
         myURL = myRepo['releases_url']
         myURL = myURL.replace("{/id}", "")
@@ -141,13 +144,14 @@ def FetchGithub (myName, myToken, myGitHistory):
         myGithubHub = dict(sorted(myGithubHub.items(), reverse = True, key = lambda x: (x[1]['myDownloads'],x[1]['myIssues'])))
 
 
-    myGitHistory[d1] = myGithubHub
-    myGitHistory['RepoURLs'] = myURLs
+    myLocalGitHistory[d1] = myGithubHub
+    myLocalGitHistory['RepoURLs'] = myURLs
         
-    makePlot(myRepos,myGitHistory)
+    if chartPref == "1":
+        makePlot(myRepos,myLocalGitHistory)
 
-    file2 = open(f"{HISTORY_FOLDER}/myGitHistory.json", "w") 
-    file2.write(json.dumps(myGitHistory, indent = 4))
+    file2 = open(HISTORY_FILE, "w") 
+    file2.write(json.dumps(myLocalGitHistory, indent = 4))
     file2.close()
 
     return myGithubHub, myURLs

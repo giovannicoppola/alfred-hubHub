@@ -71,7 +71,7 @@ python3 github.py "$1"</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -129,9 +129,9 @@ python3 github.py "$1"</string>
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string>Your GitHub username</string>
+				<string></string>
 				<key>required</key>
-				<true/>
+				<false/>
 				<key>trim</key>
 				<true/>
 			</dict>
@@ -150,14 +150,14 @@ python3 github.py "$1"</string>
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string>Your GitHub access token</string>
+				<string></string>
 				<key>required</key>
-				<true/>
+				<false/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>from https://github.com/user/settings/tokens</string>
 			<key>label</key>
 			<string>GitHub API Token</string>
 			<key>type</key>
@@ -180,7 +180,7 @@ python3 github.py "$1"</string>
 			<key>description</key>
 			<string>in days</string>
 			<key>label</key>
-			<string>Refresh rate 🔄</string>
+			<string>Refresh rate</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
@@ -197,9 +197,9 @@ python3 github.py "$1"</string>
 				<string></string>
 			</dict>
 			<key>description</key>
-			<string>Show Downloads?</string>
+			<string></string>
 			<key>label</key>
-			<string>⬇️</string>
+			<string>Show Downloads?</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -318,7 +318,7 @@ python3 github.py "$1"</string>
 						<string>Issues</string>
 					</array>
 					<array>
-						<string>Downloads Plot</string>
+						<string>Downloads Chart</string>
 						<string>Plot</string>
 					</array>
 				</array>
@@ -331,6 +331,25 @@ python3 github.py "$1"</string>
 			<string>popupbutton</string>
 			<key>variable</key>
 			<string>PreviewPref</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>Generate Charts?</string>
+			</dict>
+			<key>description</key>
+			<string>Will need `matplotlib` installed</string>
+			<key>label</key>
+			<string>📈</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>chartPref</string>
 		</dict>
 	</array>
 	<key>version</key>
