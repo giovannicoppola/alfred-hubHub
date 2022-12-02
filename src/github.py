@@ -24,6 +24,7 @@ def checkingTime ():
     timeToday = time.time()
     if not os.path.exists(HISTORY_FILE):
         log ("History File missing ... building")
+        myGitHistory = {}
         myGithubHub, myURLs = FetchGithub (username,token,myGitHistory)
     else: 
         databaseTime= (int(os.path.getmtime(HISTORY_FILE)))

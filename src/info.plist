@@ -71,7 +71,7 @@ python3 github.py "$1"</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -129,9 +129,9 @@ python3 github.py "$1"</string>
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string></string>
+				<string>Your GitHub username</string>
 				<key>required</key>
-				<false/>
+				<true/>
 				<key>trim</key>
 				<true/>
 			</dict>
@@ -150,14 +150,14 @@ python3 github.py "$1"</string>
 				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
-				<string></string>
+				<string>Your GitHub access token</string>
 				<key>required</key>
-				<false/>
+				<true/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>from https://github.com/user/settings/tokens</string>
+			<string></string>
 			<key>label</key>
 			<string>GitHub API Token</string>
 			<key>type</key>
@@ -180,7 +180,7 @@ python3 github.py "$1"</string>
 			<key>description</key>
 			<string>in days</string>
 			<key>label</key>
-			<string>Refresh rate</string>
+			<string>Refresh rate 🔄</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
@@ -197,9 +197,9 @@ python3 github.py "$1"</string>
 				<string></string>
 			</dict>
 			<key>description</key>
-			<string></string>
-			<key>label</key>
 			<string>Show Downloads?</string>
+			<key>label</key>
+			<string>⬇️</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
