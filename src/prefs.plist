@@ -4,12 +4,16 @@
 <dict>
 	<key>chartPref</key>
 	<true/>
+	<key>forkCheck</key>
+	<true/>
 	<key>issueCheck</key>
 	<true/>
 	<key>myAPIkey</key>
 	<string>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</string>
 	<key>myUsername</key>
 	<string>giovannicoppola</string>
+	<key>refreshkeyword</key>
+	<string>r!!</string>
 	<key>starCheck</key>
 	<true/>
 	<key>watchCheck</key>

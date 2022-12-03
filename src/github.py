@@ -63,6 +63,9 @@ result = {"items": []}
 d1 = today.strftime("%Y-%m-%d")
 MYINPUT= sys.argv[1]
 sameDay = 0
+issueFlag = 0
+
+
 
 
 
@@ -253,7 +256,12 @@ for myRepo in myGithubHub:
 countR = 0
 myResLen = len (myGithubHub)
 
-        
+if "--i" in MYINPUT:
+    myGithubHub = dict(sorted(myGithubHub.items(), reverse = True, key = lambda x: (x[1]['myIssues'])))
+    MYINPUT = MYINPUT.replace ('--i','')
+    issueFlag = 1
+
+
 for myRepo in myGithubHub:
     ## setting the quicklook based on user's preference
     if QUICKLOOK_PREF == "Repo":
@@ -263,6 +271,9 @@ for myRepo in myGithubHub:
     else:
         myQuickLook = f"{CACHE_FOLDER_IMAGES}/{myRepo}.png"
 
+    if issueFlag == 1:
+        myQuickLook = f"{myURLs[myRepo]}/issues"
+    
     countR += 1
     
     if MYINPUT.casefold() in myRepo.casefold():
@@ -270,10 +281,10 @@ for myRepo in myGithubHub:
         result["items"].append({
             
             "title": (
-                f"{myRepo}: {downString[myRepo]}"  
-                f"{issueString[myRepo]} " 
-                f"{starString[myRepo]} "  
-                f"{forkString[myRepo]}"
+                f"{myRepo}: {downString[myRepo]}  "  
+                f"{issueString[myRepo]}  " 
+                f"{starString[myRepo]}  "  
+                f"{forkString[myRepo]}  "
                 f"{watchString[myRepo]}"
                 ),
             "subtitle": f"{countR}/{myResLen} {subString}", 

@@ -6,6 +6,8 @@
 	<string>giovanni-githubhub</string>
 	<key>connections</key>
 	<dict>
+		<key>49FBBF0D-7064-4E03-B373-6C07CDBC061D</key>
+		<array/>
 		<key>973E5E89-CCD1-4107-9419-806CE477F513</key>
 		<array>
 			<dict>
@@ -46,7 +48,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>!!</string>
+				<string>{var:refreshkeyword}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -56,7 +58,57 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Please wait while I retrieve your info from GitHub and generate plots...⏳</string>
+				<string>Please wait while I retrieve your info from GitHub ...⏳</string>
+				<key>script</key>
+				<string>export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
+python3 refresh.py </string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Force Githubhub refresh</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>49FBBF0D-7064-4E03-B373-6C07CDBC061D</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:mainkeyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please wait while I retrieve your info from GitHub ...⏳</string>
 				<key>script</key>
 				<string>export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
 python3 github.py "$1"</string>
@@ -71,7 +123,7 @@ python3 github.py "$1"</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -106,6 +158,13 @@ python3 github.py "$1"</string>
 	<string>A customizable dashboard for your GitHub repositories</string>
 	<key>uidata</key>
 	<dict>
+		<key>49FBBF0D-7064-4E03-B373-6C07CDBC061D</key>
+		<dict>
+			<key>xpos</key>
+			<real>740</real>
+			<key>ypos</key>
+			<real>280</real>
+		</dict>
 		<key>4F3DB6C4-D18B-4592-AAD5-7AC06F12AAAD</key>
 		<dict>
 			<key>xpos</key>
@@ -194,12 +253,12 @@ python3 github.py "$1"</string>
 				<key>required</key>
 				<false/>
 				<key>text</key>
-				<string></string>
+				<string>Show Downloads?</string>
 			</dict>
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>Show Downloads?</string>
+			<string>⬇️</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -213,31 +272,12 @@ python3 github.py "$1"</string>
 				<key>required</key>
 				<false/>
 				<key>text</key>
-				<string>Show Forks?</string>
+				<string>Show Issues?</string>
 			</dict>
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>Forks</string>
-			<key>type</key>
-			<string>checkbox</string>
-			<key>variable</key>
-			<string>forkCheck</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<false/>
-				<key>required</key>
-				<false/>
-				<key>text</key>
-				<string></string>
-			</dict>
-			<key>description</key>
-			<string></string>
-			<key>label</key>
-			<string>Show Issues?</string>
+			<string>🚨</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -270,12 +310,31 @@ python3 github.py "$1"</string>
 				<key>required</key>
 				<false/>
 				<key>text</key>
-				<string>👀</string>
+				<string>Show Forks?</string>
 			</dict>
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>Show Watchers?</string>
+			<string>🌿</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>forkCheck</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>Show Watchers?</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>👀</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -294,7 +353,7 @@ python3 github.py "$1"</string>
 				<false/>
 			</dict>
 			<key>description</key>
-			<string>By default this JSON object is stored in the Workflow cache folder. Since it is built over time, it might be preferred to store it somewhere else.</string>
+			<string>By default this JSON object is stored in the Workflow cache folder. Since it is built over time, it might be preferred to store it somewhere else to backup etc.</string>
 			<key>label</key>
 			<string>Folder to store your history</string>
 			<key>type</key>
@@ -324,7 +383,7 @@ python3 github.py "$1"</string>
 				</array>
 			</dict>
 			<key>description</key>
-			<string>What you'd like to see when pressing ⇧</string>
+			<string>What you'd like to see when pressing ⇧. Issues are shown when filtered</string>
 			<key>label</key>
 			<string>Quicklook</string>
 			<key>type</key>
@@ -351,9 +410,51 @@ python3 github.py "$1"</string>
 			<key>variable</key>
 			<string>chartPref</string>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>!!</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Main Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>mainkeyword</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>!!!</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Refresh keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>refreshkeyword</string>
+		</dict>
 	</array>
 	<key>version</key>
-	<string>0.1</string>
+	<string>0.9</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
