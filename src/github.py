@@ -217,42 +217,42 @@ for myRepo in myGithubHub:
     # DOWNLOADS
     if downCheck == "1":
         myDelta_downloads = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
-        if myDelta_downloads == 0: mySymbol_D = "-"
-        if myDelta_downloads > 0: mySymbol_D = f"⬆️+{myDelta_downloads}"
+        if myDelta_downloads == 0: mySymbol_D = ""
+        if myDelta_downloads > 0: mySymbol_D = f"(⬆️+{myDelta_downloads})"
         if myDelta_downloads < 0: mySymbol_D = f"⬇️{myDelta_downloads}" # impossible? 
-        downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} ({mySymbol_D})"
+        downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} {mySymbol_D}"
     
     # STARS
     if starCheck == "1":
         myDelta_stars = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
-        if myDelta_stars == 0: mySymbol_S = "-"
-        if myDelta_stars > 0: mySymbol_S = f"⬆️+{myDelta_stars}"
-        if myDelta_stars < 0: mySymbol_S = f"⬇️{myDelta_stars}" 
-        starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']}({mySymbol_S}) "  
+        if myDelta_stars == 0: mySymbol_S = ""
+        if myDelta_stars > 0: mySymbol_S = f"(⬆️+{myDelta_stars})"
+        if myDelta_stars < 0: mySymbol_S = f"(⬇️{myDelta_stars})" 
+        starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']} {mySymbol_S}"  
     
     # ISSUES
     if issueCheck == "1":
         myDelta_issues = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
-        if myDelta_issues == 0: mySymbol_I = "-"
-        if myDelta_issues > 0: mySymbol_I = f"⬆️+{myDelta_issues}"
-        if myDelta_issues < 0: mySymbol_I = f"⬇️{myDelta_issues}" 
-        issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I})"  
+        if myDelta_issues == 0: mySymbol_I = ""
+        if myDelta_issues > 0: mySymbol_I = f"(⬆️+{myDelta_issues})"
+        if myDelta_issues < 0: mySymbol_I = f"(⬇️{myDelta_issues})" 
+        issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']} {mySymbol_I}"  
     
     # FORKS
     if forkCheck == "1":
         myDelta_forks = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
-        if myDelta_forks == 0: mySymbol_F = "-"
-        if myDelta_forks > 0: mySymbol_F = f"⬆️+{myDelta_forks[myRepo]}"
-        if myDelta_forks < 0: mySymbol_F = f"⬇️{myDelta_forks[myRepo]}" 
-        forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']}({mySymbol_F})"
+        if myDelta_forks == 0: mySymbol_F = ""
+        if myDelta_forks > 0: mySymbol_F = f"(⬆️+{myDelta_forks[myRepo]})"
+        if myDelta_forks < 0: mySymbol_F = f"(⬇️{myDelta_forks[myRepo]})" 
+        forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']} {mySymbol_F}"
     
     # WATCHERS
     if watchCheck == "1":
         myDelta_watchers = myGithubHub[myRepo]['myWatchers'] - myPreviousD[myRepo]['myWatchers']
-        if myDelta_watchers == 0: mySymbol_W = "-"
-        if myDelta_watchers > 0: mySymbol_W = f"⬆️+{myDelta_watchers}"
-        if myDelta_watchers < 0: mySymbol_W = f"⬇️{myDelta_watchers}" # impossible? 
-        watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']} ({mySymbol_W})"
+        if myDelta_watchers == 0: mySymbol_W = ""
+        if myDelta_watchers > 0: mySymbol_W = f"(⬆️+{myDelta_watchers})"
+        if myDelta_watchers < 0: mySymbol_W = f"(⬇️{myDelta_watchers})" # impossible? 
+        watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']} {mySymbol_W}"
     
     
  
