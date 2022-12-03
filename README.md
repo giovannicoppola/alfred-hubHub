@@ -81,7 +81,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 
 <h1 id="changelog">Changelog 🧰</h1>
 
-- 12-02-2022: version 0.9
+- 12-03-2022: version 0.9
 
 
 <h1 id="feedback">Feedback 🧐</h1>
