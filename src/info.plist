@@ -201,12 +201,7 @@ python3 github.py "$1"</string>
 	<key>readme</key>
 	<string># alfred-hubHub 🖥️
 ### A customizable [Alfred](https://www.alfredapp.com/) hub for your GitHub repositories
-
-
-## Motivation ✅
-
-- Quickly check the status of your Github repositories (downloads, issues, forks, etc) 
-- Save download data over time to generate plots
+Complete readme [here](https://github.com/giovannicoppola/alfred-hubHub)
 
 ## Setting up ⚙️
 
@@ -215,7 +210,6 @@ python3 github.py "$1"</string>
 - a [GitHub](https://github.com/) account
 - a [GitHub](https://github.com/) API token (Instructions on how to obtain one are [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
 - Optional: `matplotlib` library (`python -m pip install -U matplotlib`) to get download charts
-
 
 ## Default settings 
 - In Alfred, open the 'Configure Workflow' menu in `alfred-hubHub` preferences
@@ -233,43 +227,21 @@ python3 github.py "$1"</string>
 	- Optional: Change workflow keywords
 
 
-
-&lt;h1 id="usage"&gt;Basic Usage 📖&lt;/h1&gt;
+## Basic Usage 📖
 
 - launch with keyword (default: `hubhub`), or custom hotkey
 - `enter` ↩️ will open the repository on `github.com/`, unless the `--i` tag is used, in which case it open repo issues
 - `shift` ⇧ will show a preview based on user's preferences (default: download charts, or repo page if no charts)
 
-
-
-## Refreshing the database 🔄
+### Refreshing the database 🔄
 - database will refresh as indicated by the `UPDATE_DAYS` variable. 
-- launch `hubhub:refresh` to force database refresh
-
-&lt;h1 id="known-issues"&gt;Limitations &amp; known issues ⚠️&lt;/h1&gt;
-
-- None for now, but I have not done extensive testing, let me know if you see anything!
-- tested with Python 3.8.9
-
-
-&lt;h1 id="acknowledgments"&gt;Acknowledgments 😀&lt;/h1&gt;
-
-- Thanks to the [Alfred forum](https://www.alfredforum.com) community!
-
-&lt;h1 id="changelog"&gt;Changelog 🧰&lt;/h1&gt;
-
-- 12-02-2022: version 0.9
-
-
-&lt;h1 id="feedback"&gt;Feedback 🧐&lt;/h1&gt;
-
-Feedback welcome! If you notice a bug, or have ideas for new features, please feel free to get in touch either here, or on the [Alfred](https://www.alfredforum.com) forum.</string>
+- launch `hubhub:refresh` to force database refresh</string>
 	<key>uidata</key>
 	<dict>
 		<key>49FBBF0D-7064-4E03-B373-6C07CDBC061D</key>
 		<dict>
 			<key>xpos</key>
-			<real>740</real>
+			<real>735</real>
 			<key>ypos</key>
 			<real>280</real>
 		</dict>
@@ -568,6 +540,8 @@ Feedback welcome! If you notice a bug, or have ideas for new features, please fe
 			<string>refreshkeyword</string>
 		</dict>
 	</array>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
 	<string>0.9</string>
 	<key>webaddress</key>

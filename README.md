@@ -8,7 +8,7 @@
 src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/total?color=purple&label=Downloads"><br/>
 </a>
 
-![](images/alfred-GitHubHub.gif)
+![](images/hubhub.gif)
 
 
 <!-- MarkdownTOC autolink="true" bracket="round" depth="3" autoanchor="true" -->
@@ -71,7 +71,8 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 <h1 id="known-issues">Limitations & known issues ⚠️</h1>
 
 - None for now, but I have not done extensive testing, let me know if you see anything!
-- tested with Python 3.8.9
+- It looks like GitHub counts together issues and pull requests? 
+- tested with Python 3.9.13
 
 
 <h1 id="acknowledgments">Acknowledgments 😀</h1>

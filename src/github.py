@@ -62,7 +62,7 @@ result = {"items": []}
 # dd/mm/YY
 d1 = today.strftime("%Y-%m-%d")
 MYINPUT= sys.argv[1]
-sameDay = 0
+
 issueFlag = 0
 
 
@@ -175,26 +175,29 @@ f.close()
 # getting the most recent historic
 myKeys = list(myGitHistory.keys())
 
-if len(myKeys) == 2:
+if len(myKeys) == 2: #first time running, no previous data
     myPrevious = sorted (myKeys,reverse = True)[1] #0 is the URL list
+    myCurrent = myPrevious
 else:
-
-    myPrevious = sorted (myKeys,reverse = True)[1] #0 is the URL list
-    if myPrevious == d1:
-        myPrevious = sorted (myKeys,reverse = True)[2] #takes the previous one if it was checked already today
-        sameDay = 1
-
+    myCurrent = sorted (myKeys,reverse = True)[1] #most recent, 0 is the URL list
+    myPrevious = sorted (myKeys,reverse = True)[2] #0 is the URL list
+    
+        
 
 
-myGithubHub = myGitHistory[myPrevious]
+
+
+myGithubHub = myGitHistory[myCurrent]
+myPreviousD = myGitHistory[myPrevious]    
 myURLs = myGitHistory['RepoURLs']
 
-if sameDay == 1:
+
+if myCurrent == d1: #updated the same day
     subString = f"Last updated earlier today, compared to {myPrevious}"
 else:
-    subString = f"Last updated on {myPrevious}"
-    
-myPreviousD = myGitHistory[myPrevious]    
+    subString = f"Last updated on {myCurrent}, compared to {myPrevious}"
+
+
 
 forkString = {}
 downString = {}
@@ -214,7 +217,7 @@ for myRepo in myGithubHub:
     # DOWNLOADS
     if downCheck == "1":
         myDelta_downloads = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
-        if myDelta_downloads == 0: mySymbol_D = "–"
+        if myDelta_downloads == 0: mySymbol_D = "-"
         if myDelta_downloads > 0: mySymbol_D = f"⬆️+{myDelta_downloads}"
         if myDelta_downloads < 0: mySymbol_D = f"⬇️{myDelta_downloads}" # impossible? 
         downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} ({mySymbol_D})"
@@ -222,7 +225,7 @@ for myRepo in myGithubHub:
     # STARS
     if starCheck == "1":
         myDelta_stars = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
-        if myDelta_stars == 0: mySymbol_S = "–"
+        if myDelta_stars == 0: mySymbol_S = "-"
         if myDelta_stars > 0: mySymbol_S = f"⬆️+{myDelta_stars}"
         if myDelta_stars < 0: mySymbol_S = f"⬇️{myDelta_stars}" 
         starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']}({mySymbol_S}) "  
@@ -230,7 +233,7 @@ for myRepo in myGithubHub:
     # ISSUES
     if issueCheck == "1":
         myDelta_issues = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
-        if myDelta_issues == 0: mySymbol_I = "–"
+        if myDelta_issues == 0: mySymbol_I = "-"
         if myDelta_issues > 0: mySymbol_I = f"⬆️+{myDelta_issues}"
         if myDelta_issues < 0: mySymbol_I = f"⬇️{myDelta_issues}" 
         issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']}({mySymbol_I})"  
@@ -246,7 +249,7 @@ for myRepo in myGithubHub:
     # WATCHERS
     if watchCheck == "1":
         myDelta_watchers = myGithubHub[myRepo]['myWatchers'] - myPreviousD[myRepo]['myWatchers']
-        if myDelta_watchers == 0: mySymbol_W = "–"
+        if myDelta_watchers == 0: mySymbol_W = "-"
         if myDelta_watchers > 0: mySymbol_W = f"⬆️+{myDelta_watchers}"
         if myDelta_watchers < 0: mySymbol_W = f"⬇️{myDelta_watchers}" # impossible? 
         watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']} ({mySymbol_W})"
