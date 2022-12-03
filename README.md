@@ -1,4 +1,4 @@
-# GitHubHub 🖥️
+# alfred-hubHub 🖥️
 ### A customizable [Alfred](https://www.alfredapp.com/) hub for your GitHub repositories
 
 
@@ -8,7 +8,7 @@
 src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/total?color=purple&label=Downloads"><br/>
 </a>
 
-![](alfred-GitHubHub.gif)
+![](images/alfred-GitHubHub.gif)
 
 
 <!-- MarkdownTOC autolink="true" bracket="round" depth="3" autoanchor="true" -->
@@ -27,7 +27,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 
 <h1 id="motivation">Motivation ✅</h1>
 
-- Quickly check the status of your Github repositories (Downloads, Issues) 
+- Quickly check the status of your Github repositories (downloads, issues, forks, etc) 
 - Save download data over time to generate plots
 
 <h1 id="setting-up">Setting up ⚙️</h1>
@@ -35,26 +35,32 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - Alfred with Powerpack license
 - Python3 (howto [here](https://www.freecodecamp.org/news/python-version-on-mac-update/))
 - a [GitHub](https://github.com/) account
-- a [GitHub](https://github.com/) API token instructions on how to obtain one are [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-- Optional: `matplotlib` library (`python -m pip install -U matplotlib`)
+- a [GitHub](https://github.com/) API token (Instructions on how to obtain one are [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
+- Optional: `matplotlib` library (`python -m pip install -U matplotlib`) to get charts of your downloads
 
 
 ## Default settings 
-- In Alfred, open the 'Configure Workflow and Variables' window in `alfred-audible` preferences
-	<img src='images/alfred_prefs.png' width="500">
-	
-	- _Optional:_ set the emoji you want to show to mark when a record is in your library (`LIBRARY_SYMBOL`, default: 📗) or in your wishlist(`WISHLIST_SYMBOL`, default: 📕)
-	- _Optional:_ set the worklow variable `CATALOG_RESULTS` to control the max number of returned results (default and max is 50)
-	- _Optional:_ Change the keyword to launch library/wishlist search (currently set to `@a`), or set a hotkey
-	- _Optional:_ Change the keyword to launch catalog search (currently set to `@c`), or set a hotkey
-	- _Optional:_ Change the database refresh frequency in days (`UPDATE_DAYS` default: 30 days)
-
+- In Alfred, open the 'Configure Workflow' menu in `alfred-hubHub` preferences
+	- set GitHub username and token (**required**)
+	- select the relevant checkbox, if you want to show:
+		- Downloads ⬇️
+		- Issues 🚨
+		- Stars ⭐
+		- Forks 🌿
+		- Watchers 👀
+	- _Optional:_ Change the database refresh frequency in days (default: 1 day)
+	- _Optional:_ Change the location of the database (default: workflow cache folder)
+	- _Optional:_ Change the Quicklook behavior (Repo main page, Repo Issues, Downloads chart). Default: download charts, or repo main page if charts disables. When sorted by issues (`--i` tag) Quicklook and Enter go to repo issues page. 
+	- _Optional:_ Disable chart generation 
+	- _Optional:_ Change workflow keywords
 
 
 
 <h1 id="usage">Basic Usage 📖</h1>
-- launch with keyword (default: `hubhub`)
-- `enter` ↩️ will open the repositoy on `github.com/`
+
+- launch with keyword (default: `hubhub`), or custom hotkey
+- `enter` ↩️ will open the repository on `github.com/`, unless the `--i` tag is used, in which case it open repo issues
+- `shift` ⇧ will show a preview based on user's preferences (default: download charts, or repo page if no charts)
 
 
 
@@ -62,15 +68,15 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - database will refresh as indicated by the `UPDATE_DAYS` variable. 
 - launch `hubhub:refresh` to force database refresh
 
-<h1 id="known-issues">Limitations & Known issues ⚠️</h1>
-# 
+<h1 id="known-issues">Limitations & known issues ⚠️</h1>
+
 - None for now, but I have not done extensive testing, let me know if you see anything!
 - tested with Python 3.8.9
 
 
 <h1 id="acknowledgments">Acknowledgments 😀</h1>
 
-- The [Alfred forum](https://www.alfredforum.com) community.
+- Thanks to the [Alfred forum](https://www.alfredforum.com) community!
 
 <h1 id="changelog">Changelog 🧰</h1>
 

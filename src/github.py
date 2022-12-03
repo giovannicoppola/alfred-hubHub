@@ -10,7 +10,7 @@ import time
 import sys
 import os
 import json
-from config import CACHE_FOLDER, CACHE_FOLDER_IMAGES, HISTORY_FOLDER, QUICKLOOK_PREF, HISTORY_FILE
+from config import CACHE_FOLDER_IMAGES, QUICKLOOK_PREF, HISTORY_FILE
 
 def log(s, *args):
     if args:
@@ -263,6 +263,8 @@ if "--i" in MYINPUT:
 
 
 for myRepo in myGithubHub:
+    myArg = myURLs[myRepo]
+    
     ## setting the quicklook based on user's preference
     if QUICKLOOK_PREF == "Repo":
         myQuickLook = f"{myURLs[myRepo]}"
@@ -271,12 +273,14 @@ for myRepo in myGithubHub:
     else:
         myQuickLook = f"{CACHE_FOLDER_IMAGES}/{myRepo}.png"
 
-    if issueFlag == 1:
+    if issueFlag == 1: #forcing issues if sorted by issues
         myQuickLook = f"{myURLs[myRepo]}/issues"
+        myArg = f"{myURLs[myRepo]}/issues"
     
     countR += 1
     
-    if MYINPUT.casefold() in myRepo.casefold():
+    
+    if MYINPUT.casefold().strip() in myRepo.casefold():
     
         result["items"].append({
             
@@ -288,38 +292,27 @@ for myRepo in myGithubHub:
                 f"{watchString[myRepo]}"
                 ),
             "subtitle": f"{countR}/{myResLen} {subString}", 
-            "arg": myURLs[myRepo],
+            "arg": myArg,
             "quicklookurl": myQuickLook
                     
                 
         })
 
-print (json.dumps(result))
-
+if (len(result['items']) > 0):
+    print (json.dumps(result))
+else:
+    resultErr= {"items": [{
+        "title": "No matches",
+        "subtitle": "Try a different query",
+        "arg": "",
+        "icon": {
+            "path": "icons/Warning.png"
+            }
+            }]}
+    print (json.dumps(resultErr))
     
 
 
 
 
 
-
-"""
-    ## Converting the older history file to the new format
-
-    f = open('/Users/giovanni.coppola/Library/CloudStorage/OneDrive-RegeneronPharmaceuticals,Inc/MyScripts/myGitHubRepos/alfred-GitHubHub/src/myHistory backup.json')
-    myOldGit = json.load(f)
-    f.close()
-
-    for xx in myOldGit:
-        myNewDict[xx] = {}
-        for yy in myOldGit[xx]:
-            myNewDict [xx][yy] = {}
-            myNewDict [xx][yy]['myDownloads'] = myOldGit[xx][yy]
-
-
-
-    file2 = open("myNewDict.json", "w") 
-    file2.write(json.dumps(myNewDict, indent = 4))
-    file2.close()
-
-"""

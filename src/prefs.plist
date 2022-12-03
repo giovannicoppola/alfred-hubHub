@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>PreviewPref</key>
+	<string>Repo</string>
 	<key>chartPref</key>
 	<true/>
 	<key>forkCheck</key>
@@ -13,7 +15,7 @@
 	<key>myUsername</key>
 	<string>giovannicoppola</string>
 	<key>refreshkeyword</key>
-	<string>r!!</string>
+	<string>hubhub:refresh</string>
 	<key>starCheck</key>
 	<true/>
 	<key>watchCheck</key>
