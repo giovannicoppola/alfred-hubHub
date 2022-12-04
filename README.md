@@ -44,7 +44,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - In Alfred, open the 'Configure Workflow' menu in `alfred-hubHub` preferences
 	- set GitHub username and token (**required**)
 	- select the relevant checkbox, if you want to show:
-		- Downloads ⬇️
+		- Downloads ⬇️ (across all versions)
 		- Issues 🚨
 		- Stars ⭐
 		- Forks 🌿
