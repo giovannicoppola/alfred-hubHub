@@ -63,6 +63,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - use the tag `--i` to sort by number of issues
 - `enter` ↩️ will open the repository on `github.com/`, unless the `--i` tag is used, in which case it open repo issues
 - `shift` ⇧ will show a preview based on user's preferences (default: download charts, or repo page if no charts)
+- every time you use the workflow, the counts are stored in a JSON file, which can then be used to create plots of downloads
 
 
 
