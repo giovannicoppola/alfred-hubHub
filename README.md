@@ -36,7 +36,8 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - Python3 (howto [here](https://www.freecodecamp.org/news/python-version-on-mac-update/))
 - a [GitHub](https://github.com/) account
 - a [GitHub](https://github.com/) API token (Instructions on how to obtain one are [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token))
-- Optional: `matplotlib` library (`python -m pip install -U matplotlib`) to get charts of your downloads
+- Optional: `matplotlib` and `pandas` libraries (`python3 -m pip install -U matplotlib` and `python3 -m pip install -U pandas`) are needed to get download charts.
+
 
 
 ## Default settings 
