@@ -60,6 +60,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 <h1 id="usage">Basic Usage 📖</h1>
 
 - launch with keyword (default: `hubhub`), or custom hotkey
+- use the tag `--i` to sort by number of issues
 - `enter` ↩️ will open the repository on `github.com/`, unless the `--i` tag is used, in which case it open repo issues
 - `shift` ⇧ will show a preview based on user's preferences (default: download charts, or repo page if no charts)
 
