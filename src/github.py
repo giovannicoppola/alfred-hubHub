@@ -5,8 +5,8 @@
 
 import requests
 import json
-from datetime import date
-import time
+from datetime import datetime, date
+
 import sys
 import os
 import json
@@ -21,14 +21,15 @@ def log(s, *args):
 
 def checkingTime ():
 ## Checking if the database needs to be built or rebuilt
-    timeToday = time.time()
+    timeToday = date.today()
     if not os.path.exists(HISTORY_FILE):
         log ("History File missing ... building")
         myGitHistory = {}
         myGithubHub, myURLs = FetchGithub (username,token,myGitHistory)
     else: 
         databaseTime= (int(os.path.getmtime(HISTORY_FILE)))
-        time_elapsed = int((timeToday-databaseTime)/86400)
+        dt_obj = datetime.fromtimestamp(databaseTime).date()
+        time_elapsed = (timeToday-dt_obj).days
         log (str(time_elapsed)+" days from last update")
         if time_elapsed >= refRate:
             log ("rebuilding database ⏳...")
@@ -36,10 +37,9 @@ def checkingTime ():
             f = open(HISTORY_FILE)
             myGitHistory = json.load(f)
             f.close()
-
             FetchGithub (username,token, myGitHistory)
             log ("done 👍")
-            #return "toBeUpdated"
+            
     
     
 ####################
@@ -213,46 +213,56 @@ for myRepo in myGithubHub:
     forkString[myRepo] = ""
     watchString[myRepo] = ""
 
-
+    
     # DOWNLOADS
-    if downCheck == "1":
+    if (downCheck == "1") and (myRepo in myPreviousD):
         myDelta_downloads = myGithubHub[myRepo]['myDownloads'] - myPreviousD[myRepo]['myDownloads']
         if myDelta_downloads == 0: mySymbol_D = ""
         if myDelta_downloads > 0: mySymbol_D = f"(⬆️+{myDelta_downloads})"
         if myDelta_downloads < 0: mySymbol_D = f"⬇️{myDelta_downloads}" # impossible? 
         downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']} {mySymbol_D}"
-    
+    elif downCheck == "1":
+        downString[myRepo] = f"⬇{myGitHistory[d1][myRepo]['myDownloads']}"
+
     # STARS
-    if starCheck == "1":
+    if (starCheck == "1") and (myRepo in myPreviousD):
         myDelta_stars = myGithubHub[myRepo]['myStars'] - myPreviousD[myRepo]['myStars']
         if myDelta_stars == 0: mySymbol_S = ""
         if myDelta_stars > 0: mySymbol_S = f"(⬆️+{myDelta_stars})"
         if myDelta_stars < 0: mySymbol_S = f"(⬇️{myDelta_stars})" 
         starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']} {mySymbol_S}"  
-    
+    elif (starCheck == "1"):
+        starString[myRepo] = f"⭐{myGitHistory[d1][myRepo]['myStars']}"  
+
     # ISSUES
-    if issueCheck == "1":
+    if (issueCheck == "1") and (myRepo in myPreviousD):
         myDelta_issues = myGithubHub[myRepo]['myIssues'] - myPreviousD[myRepo]['myIssues']
         if myDelta_issues == 0: mySymbol_I = ""
         if myDelta_issues > 0: mySymbol_I = f"(⬆️+{myDelta_issues})"
         if myDelta_issues < 0: mySymbol_I = f"(⬇️{myDelta_issues})" 
         issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']} {mySymbol_I}"  
-    
+    elif (issueCheck == "1"):
+        issueString[myRepo] = f"🚨{myGitHistory[d1][myRepo]['myIssues']}"  
+
     # FORKS
-    if forkCheck == "1":
+    if (forkCheck == "1") and (myRepo in myPreviousD):
         myDelta_forks = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
         if myDelta_forks == 0: mySymbol_F = ""
         if myDelta_forks > 0: mySymbol_F = f"(⬆️+{myDelta_forks[myRepo]})"
         if myDelta_forks < 0: mySymbol_F = f"(⬇️{myDelta_forks[myRepo]})" 
         forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']} {mySymbol_F}"
-    
+    elif (forkCheck == "1"):
+        forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']}"
+
     # WATCHERS
-    if watchCheck == "1":
+    if (watchCheck == "1") and (myRepo in myPreviousD):
         myDelta_watchers = myGithubHub[myRepo]['myWatchers'] - myPreviousD[myRepo]['myWatchers']
         if myDelta_watchers == 0: mySymbol_W = ""
         if myDelta_watchers > 0: mySymbol_W = f"(⬆️+{myDelta_watchers})"
         if myDelta_watchers < 0: mySymbol_W = f"(⬇️{myDelta_watchers})" # impossible? 
         watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']} {mySymbol_W}"
+    elif (watchCheck == "1"):
+        watchString[myRepo] = f"👀{myGitHistory[d1][myRepo]['myWatchers']}"
     
     
  
