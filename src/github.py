@@ -212,7 +212,7 @@ for myRepo in myGithubHub:
     starString[myRepo] = ""
     forkString[myRepo] = ""
     watchString[myRepo] = ""
-
+    
     
     # DOWNLOADS
     if (downCheck == "1") and (myRepo in myPreviousD):
@@ -248,8 +248,8 @@ for myRepo in myGithubHub:
     if (forkCheck == "1") and (myRepo in myPreviousD):
         myDelta_forks = myGithubHub[myRepo]['myForks'] - myPreviousD[myRepo]['myForks']
         if myDelta_forks == 0: mySymbol_F = ""
-        if myDelta_forks > 0: mySymbol_F = f"(⬆️+{myDelta_forks[myRepo]})"
-        if myDelta_forks < 0: mySymbol_F = f"(⬇️{myDelta_forks[myRepo]})" 
+        if myDelta_forks > 0: mySymbol_F = f"(⬆️+{myDelta_forks})"
+        if myDelta_forks < 0: mySymbol_F = f"(⬇️{myDelta_forks})" 
         forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']} {mySymbol_F}"
     elif (forkCheck == "1"):
         forkString[myRepo] = f"🌿{myGitHistory[d1][myRepo]['myForks']}"

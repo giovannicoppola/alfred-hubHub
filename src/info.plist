@@ -150,27 +150,6 @@ python3 github.py "$1"</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>skipqueryencode</key>
-				<false/>
-				<key>skipvarencode</key>
-				<false/>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>4F3DB6C4-D18B-4592-AAD5-7AC06F12AAAD</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>action</key>
 				<integer>0</integer>
 				<key>argument</key>
@@ -198,6 +177,27 @@ python3 github.py "$1"</string>
 			<string>61A07171-B7C8-4263-9C8D-B0372B80FAE0</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>4F3DB6C4-D18B-4592-AAD5-7AC06F12AAAD</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -545,7 +545,7 @@ Complete readme [here](https://github.com/giovannicoppola/alfred-hubHub)
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>0.9.1</string>
+	<string>0.9.2</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
