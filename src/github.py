@@ -129,7 +129,7 @@ def FetchGithub (myName, myToken, myLocalGitHistory):
         myRepos.append(myRepo["name"]) #saving a list of repos names to be used with the plot function
         # computing total downloads
         downl = json.loads(gh_session.get(myURL).text)
-        #print (myRepo["name"])
+        #log (myRepo["name"])
         if downl:
             totalDown = 0
             for asset in downl:
@@ -273,6 +273,15 @@ if "--i" in MYINPUT:
     myGithubHub = dict(sorted(myGithubHub.items(), reverse = True, key = lambda x: (x[1]['myIssues'])))
     MYINPUT = MYINPUT.replace ('--i','')
     issueFlag = 1
+
+
+if "--c" in MYINPUT:
+    different_apps = {}
+    for app, values in myGithubHub.items():
+        if values != myPreviousD.get(app, {}):
+            different_apps[app] = values
+    MYINPUT = MYINPUT.replace ('--c','')
+    myGithubHub = different_apps
 
 
 for myRepo in myGithubHub:
