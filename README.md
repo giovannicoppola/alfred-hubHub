@@ -52,7 +52,8 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 	- _Optional:_ Change the database refresh frequency in days (default: 1 day)
 	- _Optional:_ Change the location of the database (default: workflow cache folder)
 	- _Optional:_ Change the Quicklook behavior (Repo main page, Repo Issues, Downloads chart). Default: download charts, or repo main page if charts disables. When sorted by issues (`--i` tag) Quicklook and Enter go to repo issues page. 
-	- _Optional:_ Disable chart generation 
+	- _Optional:_ Disable chart generation
+	- _Optional:_ Set to show only changed items upon launching (`--a` to override) 
 	- _Optional:_ Change workflow keywords
 
 
@@ -85,7 +86,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 
 <h1 id="changelog">Changelog 🧰</h1>
 
-- 08-07-2023: version 0.9.4, added option to show changed items only upon opening, hidden issues with 0 counts for `--i` tag
+- 08-07-2023: version 0.9.4, added option to show changed items only upon opening (`--a` to override), hidden issues with 0 counts for `--i` tag
 - 06-11-2023: version 0.9.3, added `--c` tag to show changed repositories only
 - 12-03-2022: version 0.9
 
