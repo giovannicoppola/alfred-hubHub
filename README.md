@@ -84,6 +84,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 - Thanks to the [Alfred forum](https://www.alfredforum.com) community!
 
 <h1 id="changelog">Changelog 🧰</h1>
+
 - 08-07-2023: version 0.9.4, added option to show changed items only upon opening, hidden issues with 0 counts for `--i` tag
 - 06-11-2023: version 0.9.3, added `--c` tag to show changed repositories only
 - 12-03-2022: version 0.9
