@@ -57,6 +57,7 @@ myGitHistory = {}
 today = date.today()
 refRate = int(os.getenv("RefreshRate"))
 chartPref = os.getenv("chartPref")
+openPref = os.getenv("openPref")
 
 result = {"items": []}
 # dd/mm/YY
@@ -270,7 +271,9 @@ countR = 0
 myResLen = len (myGithubHub)
 
 if "--i" in MYINPUT:
-    myGithubHub = dict(sorted(myGithubHub.items(), reverse = True, key = lambda x: (x[1]['myIssues'])))
+    
+    myGithubHub = dict(sorted(((key, value) for key, value in myGithubHub.items() if value['myIssues'] != 0), reverse=True, key=lambda x: x[1]['myIssues']))
+
     MYINPUT = MYINPUT.replace ('--i','')
     issueFlag = 1
 
@@ -283,6 +286,12 @@ if "--c" in MYINPUT:
     MYINPUT = MYINPUT.replace ('--c','')
     myGithubHub = different_apps
 
+if openPref == "1":
+    different_apps = {}
+    for app, values in myGithubHub.items():
+        if values != myPreviousD.get(app, {}):
+            different_apps[app] = values
+    myGithubHub = different_apps
 
 for myRepo in myGithubHub:
     myArg = myURLs[myRepo]
