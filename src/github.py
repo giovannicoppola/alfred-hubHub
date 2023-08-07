@@ -268,7 +268,7 @@ for myRepo in myGithubHub:
     
  
 countR = 0
-myResLen = len (myGithubHub)
+
 
 if "--i" in MYINPUT:
     
@@ -286,13 +286,21 @@ if "--c" in MYINPUT:
     MYINPUT = MYINPUT.replace ('--c','')
     myGithubHub = different_apps
 
-if openPref == "1":
+if openPref == "1" and issueFlag == 0:
     different_apps = {}
     for app, values in myGithubHub.items():
         if values != myPreviousD.get(app, {}):
             different_apps[app] = values
-    myGithubHub = different_apps
+    if "--a" in MYINPUT:
+        # overriding prefs
+        MYINPUT = MYINPUT.replace ('--a','')
+    else:
+        myGithubHub = different_apps
 
+    
+
+
+myResLen = len (myGithubHub)
 for myRepo in myGithubHub:
     myArg = myURLs[myRepo]
     

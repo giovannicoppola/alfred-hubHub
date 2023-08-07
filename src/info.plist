@@ -515,7 +515,7 @@ Complete readme [here](https://github.com/giovannicoppola/alfred-hubHub)
 				<string>Show changed items only?</string>
 			</dict>
 			<key>description</key>
-			<string>Open showing only changed items</string>
+			<string>Open showing only changed items (`--a` to override)</string>
 			<key>label</key>
 			<string>🆕</string>
 			<key>type</key>
