@@ -97,7 +97,7 @@ def makePlot (repos, myGitHistory):
         # plotting
         df['value'].plot()
         #ax.set(xlabel=None)
-        plt.style.use('seaborn-poster')
+        plt.style.use('seaborn-v0_8-poster')
         plt.xlabel('', fontsize=18)
         plt.ylabel('Downloads', fontsize=16)
         plt.title(f"{myRepo}", fontsize=18)       
@@ -122,15 +122,22 @@ def FetchGithub (myName, myToken, myLocalGitHistory):
 
     # get the list of repos 
     repos = json.loads(gh_session.get(repos_url).text)
+    #log (repos)
     #log ("_________________here")
     for myRepo in repos:
         myURL = myRepo['releases_url']
         myURL = myURL.replace("{/id}", "")
+
+        myRepoURL = myRepo['url']
         myGithubHub [myRepo["name"]] = {}
         myRepos.append(myRepo["name"]) #saving a list of repos names to be used with the plot function
         # computing total downloads
         downl = json.loads(gh_session.get(myURL).text)
         #log (myRepo["name"])
+        watchers = json.loads(gh_session.get(myRepoURL).text)
+        
+        watchersCount = watchers ['subscribers_count']
+        
         if downl:
             totalDown = 0
             for asset in downl:
@@ -140,7 +147,7 @@ def FetchGithub (myName, myToken, myLocalGitHistory):
         else:
             myGithubHub [myRepo["name"]]['myDownloads'] = 0
         
-        myGithubHub [myRepo["name"]]['myWatchers'] = myRepo['watchers_count']
+        myGithubHub [myRepo["name"]]['myWatchers'] = watchersCount
         myGithubHub [myRepo["name"]]['myIssues'] = myRepo['open_issues_count']
         myGithubHub [myRepo["name"]]['myStars'] = myRepo['stargazers_count']
         myGithubHub [myRepo["name"]]['myForks'] = myRepo['forks_count']
