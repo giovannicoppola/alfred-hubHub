@@ -134,9 +134,16 @@ def FetchGithub (myName, myToken, myLocalGitHistory):
         # computing total downloads
         downl = json.loads(gh_session.get(myURL).text)
         #log (myRepo["name"])
-        watchers = json.loads(gh_session.get(myRepoURL).text)
         
-        watchersCount = watchers ['subscribers_count']
+        # getting watchers (public)
+        try:
+            
+            response = requests.get(myRepoURL)
+            watchers = response.json()
+            #watchers = json.loads(gh_session.get(myRepoURL).text)
+            watchersCount = watchers ['subscribers_count']
+        except:
+            watchersCount = 0
         
         if downl:
             totalDown = 0

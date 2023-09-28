@@ -86,6 +86,7 @@ src="https://img.shields.io/github/downloads/giovannicoppola/alfred-GitHubHub/to
 
 <h1 id="changelog">Changelog 🧰</h1>
 
+- 09-28-2023: version 0.9.6, fixed watchers count again (API change?)
 - 09-09-2023: version 0.9.5, fixed watchers count, matplotlib style
 - 08-07-2023: version 0.9.4, added option to show changed items only upon opening (`--a` to override), hidden issues with 0 counts for `--i` tag
 - 06-11-2023: version 0.9.3, added `--c` tag to show changed repositories only
